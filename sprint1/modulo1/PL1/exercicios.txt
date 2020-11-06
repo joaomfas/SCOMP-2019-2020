@@ -1,0 +1,237 @@
+1.
+a) 
+	Caso o filho corra primeiro:
+	1. x = 2
+	3. 0; x = 2
+	2. x = 0
+	3. 1234; x = 0
+
+	Caso o pai corra primeiro:
+	2. x = 0
+	3. 1234; x = 0
+	1. x = 2
+	3. 0; x = 2
+
+b)	Não, caso o processo filho seja executado antes do processo pai a linha 11 irá ser executada, pelo processo filho, antes da linha 9.
+
+3.
+a)	São criados 6 processos.
+b)	|
+	|
+	|
+	|---------------
+	|		|
+	|		|-------
+	|		|	|
+	|		|	|-------
+	|		|	|	|
+	|		|	|
+	|		|
+	|		|-------
+	|		|	|
+	|		|	|
+	|		|	|
+	|		|
+	|			
+	|-------
+	|	|
+	|	|-------
+	|	|	|
+	|	|	|
+	|	|
+	|	|
+	|
+	|
+	|
+	|-------
+	|	|
+	|	|
+	|
+	|
+	|
+
+c)	É impresso 8 vezes.
+
+4.
+a)	Apenas a variável A irá ser igual em todos os processos.
+b)
+	| PID = 122
+	| a = 0;
+	|
+	|-------  PID = 123
+	|	|
+	|	| a = 5; b = 0; c = 123; d = 122 
+	|
+	|
+	| a = 5; b = 123; c = 122; d = 121
+
+6.
+a)	Este código irá criar 15 processos.
+	|
+	|
+	|---------------
+	|		|
+	|		|-------
+	|		|	|-------
+	|		|	|	|
+	|		|	|	|-------
+	|		|	|		|
+	|		|	|-------
+	|		|	|	|
+	|		|		
+	|		|-------
+	|		|	|-------
+	|		|	|	|
+	|		|
+	|		|-------
+	|		|	|
+	|
+	|
+	|
+	|---------------
+	|		|
+	|		|-------
+	|		|	|-------
+	|		|	|	|
+	|		|	|	|
+	|		|
+	|		|
+	|		|
+	|		|-------
+	|		|	|
+	|		|	|
+	|
+	|
+	|---------------
+	|		|
+	|		|-------
+	|		|	|
+	|		|	|
+	|		|	|
+	|
+	|
+	|---------------
+	|		|
+	|		|
+	|		|
+	|		|
+	|		|
+
+b)	A seguir ao sleep faria um exit.
+c)	
+	int main(){
+		int i;
+		int status;
+		pid_t pids[4];
+		int count = 0;
+		int status;
+		for (i = 0; i < 4; i++) {
+			pid_t x = fork(); 
+			if (x == 0) {
+				sleep(1); /*sleep(): unistd.h*/
+				exit(i+1);
+			} else {
+				if(x%2 == 0){
+					pids[count] = x;
+					count++;
+				{
+			}
+		}
+
+		for(i = 0; i < count; i++){
+			waitpid(pids[i], &status, 0);
+			printf("Esperei pelo filho%d\n",pids[i]);
+		}
+
+		printf("This is the end.\n")
+		return 0;
+	}
+
+d)
+	int main(){
+		int i;
+		int status;
+		pid_t pids[4];
+		int count = 0;
+		int status;
+		for (i = 0; i < 4; i++) {
+			pid_t x = fork(); 
+			if (x == 0) {
+				sleep(1); /*sleep(): unistd.h*/
+				printf("Filho %d criado em %dº lugar\n", getpid(), i+1);
+				exit(i+1);
+			} else {
+				if(x%2 == 0){
+					pids[count] = x;
+					count++;
+				{
+			}
+		}
+
+		for(i = 0; i < count; i++){
+			waitpid(pids[i], &status, 0);
+			printf("Esperei pelo filho%d\n",pids[i]);
+		}
+
+		printf("This is the end.\n")
+		return 0;
+	}
+
+7.
+#define ARRAY_SIZE 1000
+int main ()
+{
+	int numbers[ARRAY_SIZE]; /* array to lookup */
+	int n; /* the number to find */
+	time_t t; */needed to init. the random number generator (RNG)/*
+
+	int i;
+	/* intializes RNG (srand():stdlib.h; time(): time.h) */
+	srand ((unsigned) time (&t));
+
+	/* initialize array with random numbers (rand(): stdlib.h) */
+	for (i = 0; i < ARRAY_SIZE; i++){
+		numbers[i] = rand () % 10000;
+	}
+	/* initialize n */
+	n=rand()%10000;
+
+
+	pid_t f = fork();
+	int count = 0;	
+
+	if(f == 0){
+		for(i = (ARRAYSIZE/2); i < (ARRAYSIZE-1); i++){
+			if(numbers[i] == n){
+				count++;
+			}
+		}
+		exit(count);
+	}else{
+		for(i = 0; i < (ARRAYSIZE/2 - 1); i++){
+			if(numbers[i] == n){
+				count++;
+			}
+		}
+	}
+
+	int count_total = count;
+	int status;
+	pid_t p;
+	p = waitpid(f, &status, 0);
+	if(p == -1){
+		error("waited failed!");
+		exit(EXIT_FAILURE);
+	}else if(WIFEXITED(status)){
+		count_total += WEXITSTATUS(status);
+		printf("O valor %d foi encontrado %d vezes\n", n, count_total);
+	}
+	return 0;
+}
+
+8.
+a)	Apenas é listado o processo pai e o primeiro processo filho criado.
+b)	É indicado que o processo filho está terminado. Isto acontece pois o pai apenas "enterrou" o 2º filho.
+
+9.
+a)	O output não é ordenado. Se se utilizar um array para guardar a ordem pela qual os processos filhos são criados seria possível ordenar.

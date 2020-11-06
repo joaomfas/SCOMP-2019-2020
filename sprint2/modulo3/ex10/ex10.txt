@@ -1,0 +1,2 @@
+O número de processos utilizado no exercício anterior deverá ser igual ao número de cores que o processador do sistema tenha.
+Por exemplo, caso a VM tenha sido configurada com 4 cores o número de processos a usar deveria ser 4 de maneira a que um processo corresse em cada core e todos eles corressem em simultâneo sem terem que esperar uns pelos outros.

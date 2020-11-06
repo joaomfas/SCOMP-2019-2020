@@ -1,0 +1,7 @@
+3. Implement a solution that tests the speed of two transfer methods between two processes – pipes and shared
+memory. 
+
+velocidade com pipes: entre 0.290000 e 0.320000 segundos
+velocidade com memória partilhada: entre 0 e 0.010000 segundos
+
+Verifica-se que a velocidade é superior utilizando a memória partilhada, demorando menos tempo na transferência de dados entre 2 processos.
